@@ -1,18 +1,15 @@
 import { sceneData } from "./Data";
-import PolarGrid from "./PolarGrid";
-import Vector2 from "./Vector2";
+import Scene from "./Scene";
 
 class Engine {
   isRunning: boolean;
   lastUpdateTime: number;
-  polarGrid: PolarGrid;
+  scene: Scene;
 
   constructor() {
     this.isRunning = false;
     this.lastUpdateTime = 0;
-    this.polarGrid = new PolarGrid();
-    this.polarGrid.isRenderingGridLines = false;
-    this.polarGrid.addPoint(new Vector2(50, 22));
+    this.scene = new Scene();
   }
 
   start() {
@@ -34,8 +31,7 @@ class Engine {
   }
 
   update(deltatime: number) {
-    this.polarGrid.points[0].y++;
-    if(this.polarGrid.points[0].y > 360) this.polarGrid.points[0].y -= 360;
+    this.scene.update(deltatime);
   }
 
   render() {
@@ -43,8 +39,8 @@ class Engine {
       sceneData.renderingContext.beginPath();
       sceneData.renderingContext.fillStyle = "black";
       sceneData.renderingContext.fillRect(0, 0, sceneData.renderingContext.canvas.width, sceneData.renderingContext.canvas.height);
-      
-      this.polarGrid.render(sceneData.renderingContext);
+
+      this.scene.render(sceneData.renderingContext);
     }
   }
 }
